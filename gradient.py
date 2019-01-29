@@ -59,5 +59,5 @@ def gradient(X):
     g = np.zeros((1, 3*n_atomes))[0]
     for i in range(n_atomes):
         for j in range(i):
-            g += gradient_2(i,j,X)/10 #On divise par 10 par ce que sinon la solution part en couilles
+            g += gradient_2(i,j,X) #On divise par 10 par ce que sinon la solution part en couilles
     return g

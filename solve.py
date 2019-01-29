@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.integrate import odeint
-from gradient import gradient
+from gradient import gradient, LJ
+import random
 
 def solve_ode(X0, t0, tf, n_intervals):
     """
@@ -13,6 +14,15 @@ def solve_ode(X0, t0, tf, n_intervals):
     #print(n_atomes)
     X0 = np.reshape(X0,(1, 3*n_atomes))[0]
     Y0 = np.hstack((X0, np.zeros((1, 3*n_atomes))[0])) # Y0 = [x0,y0,z0,...,xn,yn,zn, vx0,vy0,vz0,...,vxn,vyn,vzn]
+
+    v = np.random.rand(1, 3*n_atomes)
+    v = v/np.linalg.norm(v)
+    v *= 1e-14
+    print(v[0])
+    print(np.dot(gradient(X0)*10,v[0]))
+    print((LJ((X0+v)[0]) - LJ((X0-v)[0]))/2)
+
+
 
     T = np.linspace(t0,tf,n_intervals)
     def ode(Y,t):
