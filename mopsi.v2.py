@@ -29,17 +29,26 @@ X0[1,0] += delta*np.sin(np.pi/6)
 X0[1,1] -= delta*np.cos(np.pi/6) - Delta
 X0[2,1] += Delta
 
+X0 = np.reshape(X0,(1, 3*parameters.n_atomes))[0]
+v = np.random.rand(1, 3*parameters.n_atomes)[0]
+v = v/np.linalg.norm(v)
+h = 1e-8
 
-Y = solve.solve_ode(X0, 0, 100, parameters.n_frames)
-plot_solution.plot(Y)
+print( (gradient.LJ(X0 + h*v) - gradient.LJ(X0 - h*v))/2/h)
+print( np.dot(gradient.gradient(X0),v) )
+#print((gradient.LJ((X0+h*v)[0]) - gradient.LJ((X0-h*v)[0]))/2/h)
+
+
+#Y = solve.solve_ode(X0, 0, 1, parameters.n_frames)
+#plot_solution.plot(Y)
 
 # On regarde la coordonnée x de l'atome 0
-X = []
-T = []
-for t in range(len(Y)):
-    T.append(t)
-    X.append(Y[t][0][0])
-plt.plot(T,X)
-FX = np.fft.rfft(X)
-plt.plot(T[:len(FX)],np.abs(FX))
-plt.show()
+# X = []
+# T = []
+# for t in range(len(Y)):
+#     T.append(t)
+#     X.append(Y[t][0][0])
+# plt.plot(T,X)
+# FX = np.fft.rfft(X)
+# plt.plot(T[:len(FX)],np.abs(FX))
+# plt.show()
