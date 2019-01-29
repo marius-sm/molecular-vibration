@@ -15,12 +15,13 @@ def solve_ode(X0, t0, tf, n_intervals):
     X0 = np.reshape(X0,(1, 3*n_atomes))[0]
     Y0 = np.hstack((X0, np.zeros((1, 3*n_atomes))[0])) # Y0 = [x0,y0,z0,...,xn,yn,zn, vx0,vy0,vz0,...,vxn,vyn,vzn]
 
+    # Test avec les différences finies
     v = np.random.rand(1, 3*n_atomes)
     v = v/np.linalg.norm(v)
-    v *= 1e-14
+    h = 1e-8
     print(v[0])
-    print(np.dot(gradient(X0)*10,v[0]))
-    print((LJ((X0+v)[0]) - LJ((X0-v)[0]))/2)
+    print(np.dot(gradient(X0),v[0]))
+    print((LJ((X0+h*v)[0]) - LJ((X0-h*v)[0]))/2/h)
 
 
 

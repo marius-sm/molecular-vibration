@@ -3,6 +3,7 @@ import solve
 import parameters
 import plot_solution
 import matplotlib.pyplot as plt
+import gradient
 
 
 X0 = np.zeros((parameters.n_atomes, 3))
