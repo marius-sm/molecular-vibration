@@ -34,9 +34,17 @@ def gradient_3(i, j, k, X):
         return 0
     r = dist(i,j,X)
     if 3*i <= k <= 3*i+2:
-        return 12*parameters.E[i,j]*(parameters.d[i,j]**6/r**7 - 2*parameters.d[i,j]**12/r**13) * 2*float(X[k] - X[3*j+k%3])
+        value = 12*parameters.E[i,j]*(parameters.d[i,j]**6/r**7 - 2*parameters.d[i,j]**12/r**13) * 2*float(X[k] - X[3*j+k%3])
     else:
-        return 12*parameters.E[i,j]*(parameters.d[i,j]**6/r**7 - 2*parameters.d[i,j]**12/r**13) * 2*float(X[k] - X[3*i+k%3])
+        value = 12*parameters.E[i,j]*(parameters.d[i,j]**6/r**7 - 2*parameters.d[i,j]**12/r**13) * 2*float(X[k] - X[3*i+k%3])
+
+    # Test avec les différences finies
+    v = np.zeros((1, 3*n_atomes))
+    h = 1e-8
+    v[0,k] = 1
+    approx = (LJ((X+h*v)[0]) - LJ((X-h*v)[0]))/2/h
+    #print(f"analytique : {value}, diff finies : {approx}")
+    return approx
 
 def gradient_2(i, j, X):
     """
